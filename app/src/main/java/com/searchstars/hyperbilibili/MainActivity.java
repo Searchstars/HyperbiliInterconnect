@@ -1,5 +1,8 @@
 package com.searchstars.hyperbilibili;
 
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -40,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
     public static String connectedNodeId = "";
 
     @Override
-    protected void onPause(){
-        super.onPause();
+    protected void onDestroy(){
         messageApi.removeListener(connectedNodeId);
+        super.onDestroy();
     }
 
     @Override
@@ -94,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                                     logs.add("权限 Permission.DEVICE_MANAGER 申请成功");
                                     logs.add("所有准备工作已完成！开始等待Hello Packet...");
 
-                                    // 开始监听信息
                                     OnMessageReceivedListener onMessageReceivedListener = new OnMessageReceivedListener() {
                                         @Override
                                         public void onMessageReceived(@NonNull @NotNull String nodeId, @NonNull @NotNull byte[] bytes) {
